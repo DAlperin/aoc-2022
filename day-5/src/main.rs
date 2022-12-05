@@ -34,7 +34,6 @@ fn parse_stacks(stacks: String) -> Vec<Vec<char>> {
             newstack
         })
         .collect_vec();
-    println!("{:?}", new);
     new
 }
 
