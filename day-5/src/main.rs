@@ -40,9 +40,9 @@ fn parse_stacks(stacks: String) -> Vec<Vec<char>> {
 
 #[derive(Debug, Clone, Copy)]
 struct Instruction {
-    from: u32,
-    to: u32,
-    quantity: u32,
+    from: usize,
+    to: usize,
+    quantity: usize,
 }
 
 fn parse_instructions(input: String) -> Vec<Instruction> {
@@ -51,9 +51,9 @@ fn parse_instructions(input: String) -> Vec<Instruction> {
     for line in lines {
         let parts: Vec<_> = line.split(" ").collect();
         instructions.push(Instruction {
-            quantity: parts[1].parse::<u32>().unwrap(),
-            from: parts[3].parse::<u32>().unwrap(),
-            to: parts[5].parse::<u32>().unwrap(),
+            quantity: parts[1].parse::<usize>().unwrap(),
+            from: parts[3].parse::<usize>().unwrap(),
+            to: parts[5].parse::<usize>().unwrap(),
         })
     }
     instructions
@@ -66,8 +66,8 @@ fn execute_instructions_part_1(
     for instr in instructions {
         let mut i = 0;
         while i < instr.quantity {
-            let val = stacks[instr.from as usize - 1].pop().unwrap();
-            stacks[instr.to as usize - 1].push(val);
+            let val = stacks[instr.from - 1].pop().unwrap();
+            stacks[instr.to - 1].push(val);
             i = i + 1;
         }
     }
@@ -80,11 +80,11 @@ fn execute_instructions_part_2(
 ) -> Vec<Vec<char>> {
     for instr in instructions {
         let mut i: usize = 0;
-        while i < instr.quantity as usize {
-            let index = stacks[instr.from as usize - 1].len() + i - instr.quantity as usize;
-            let val = stacks[instr.from as usize - 1][index];
-            stacks[instr.from as usize - 1].remove(index);
-            stacks[instr.to as usize - 1].push(val);
+        while i < instr.quantity {
+            let index = stacks[instr.from - 1].len() + i - instr.quantity;
+            let val = stacks[instr.from - 1][index];
+            stacks[instr.from - 1].remove(index);
+            stacks[instr.to - 1].push(val);
             i = i + 1;
         }
     }
