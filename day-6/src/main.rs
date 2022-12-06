@@ -9,33 +9,25 @@ fn has_dup<T: PartialEq>(slice: &[T]) -> bool {
     false
 }
 
+fn solve(chars: &Vec<char>, offset: usize) -> Option<usize> {
+    let mut output: Option<usize> = None;
+    for i in 0..chars.len() {
+        if i + offset > chars.len() {
+            break;
+        }
+        let slice = &chars[i..i + offset];
+        if !has_dup(slice) {
+            output = Some(i + offset);
+            break;
+        }
+    }
+    output
+}
+
 fn main() {
     let input = fs::read_to_string("./input.txt").unwrap();
     let chars: Vec<_> = input.chars().collect();
 
-    // Part 1
-    for i in 0..chars.len() {
-        let offset = 4;
-        if i + offset > chars.len() {
-            break;
-        }
-        let slice = &chars[i..i + offset];
-        if !has_dup(slice) {
-            println!("{}", i + offset);
-            break;
-        }
-    }
-
-    // Part 2
-    for i in 0..chars.len() {
-        let offset = 14;
-        if i + offset > chars.len() {
-            break;
-        }
-        let slice = &chars[i..i + offset];
-        if !has_dup(slice) {
-            println!("{}", i + offset);
-            break;
-        }
-    }
+    println!("{}", solve(&chars, 4).unwrap());
+    println!("{}", solve(&chars, 14).unwrap());
 }
